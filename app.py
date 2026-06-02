@@ -25,6 +25,8 @@ app = FastAPI(
 is_vercel = os.environ.get("VERCEL", "0") == "1"
 upload_dir = "/tmp/uploads" if is_vercel else "uploads"
 os.makedirs(upload_dir, exist_ok=True)
+if not is_vercel:
+    os.makedirs("static", exist_ok=True)
 
 # Mount static and templates using absolute paths
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
