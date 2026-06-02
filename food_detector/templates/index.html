@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodScan — Your Food. Your Health.</title>
+    <meta name="description" content="Identify food, know what's inside. Detect allergens and discover nutrients instantly.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* ═══════════════════════════════════════════
+           DESIGN SYSTEM & THEME (FoodScan)
+           ═══════════════════════════════════════════ */
+        :root {
+            --primary: #16a34a;
+            --primary-hover: #15803d;
+            --primary-light: #e8f5e9;
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --text-light: #94a3b8;
+            --border-color: #e2e8f0;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --radius-full: 9999px;
+            
+            --success: #16a34a;
+            --warning: #ea580c;
+            --danger: #dc2626;
+            
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+            
+            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.5;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* ═══════════════════════════════════════════
+           NAVBAR
+           ═══════════════════════════════════════════ */
+        .navbar {
+            background-color: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 70px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background-color: var(--primary-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-name {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--text-main);
+            line-height: 1.1;
+        }
+
+        .brand-sub {
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: var(--primary);
+            border-radius: var(--radius-full);
+        }
+
+        .btn-profile {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1.25rem;
+            background-color: var(--bg-body);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-full);
+            color: var(--text-main);
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .btn-profile:hover {
+            background-color: var(--primary-light);
+            border-color: rgba(22, 163, 74, 0.2);
+            color: var(--primary);
+        }
+
+        /* ═══════════════════════════════════════════
+           HERO SECTION
+           ═══════════════════════════════════════════ */
+        .hero {
+            padding: 4rem 0;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        @media (min-width: 992px) {
+            .hero {
+                grid-template-columns: 1.1fr 0.9fr;
+            }
+        }
+
+        .hero-left {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hero-title {
+            font-size: clamp(2rem, 4vw, 3.25rem);
+            font-weight: 800;
+            color: #0b1530;
+            line-height: 1.15;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-title span {
+            color: var(--primary);
+        }
+
+        .hero-subtitle {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            max-width: 480px;
+        }
+
+        /* Form / Inputs Layout */
+        .inputs-container {
+            display: flex;
+            align-items: stretch;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem;
+            box-shadow: var(--shadow-lg);
+            gap: 1.25rem;
+            position: relative;
+        }
+
+        @media (max-width: 576px) {
+            .inputs-container {
+                flex-direction: column;
+            }
+            .or-divider {
+                flex-direction: row !important;
+                margin: 0.5rem 0;
+            }
+            .or-divider::before, .or-divider::after {
+                height: 1px !important;
+                width: 100% !important;
+            }
+        }
+
+        /* Upload Option Card */
+        .upload-card-wrapper {
+            flex: 1;
+            position: relative;
+        }
+
+        .upload-card {
+            border: 1px dashed rgba(22, 163, 74, 0.4);
+            background-color: rgba(22, 163, 74, 0.02);
+            border-radius: var(--radius-md);
+            padding: 1.5rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.25s var(--ease-out);
+            height: 100%;
+            min-height: 110px;
+        }
+
+        .upload-card:hover {
+            background-color: var(--primary-light);
+            border-color: var(--primary);
+        }
+
+        .upload-icon {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            transition: transform 0.2s;
+        }
+
+        .upload-card:hover .upload-icon {
+            transform: translateY(-2px);
+        }
+
+        .upload-text {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .upload-sub {
+            font-size: 0.7rem;
+            color: var(--text-light);
+            margin-top: 0.25rem;
+        }
+
+        .hidden-file-input {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* OR Divider */
+        .or-divider {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--text-light);
+            gap: 0.5rem;
+        }
+
+        .or-divider::before, .or-divider::after {
+            content: '';
+            width: 1px;
+            height: 100%;
+            background-color: var(--border-color);
+            flex: 1;
+        }
+
+        /* Text Search Option Card */
+        .search-card {
+            flex: 1.2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+
+        .text-input-wrapper {
+            position: relative;
+        }
+
+        .text-input {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-family: inherit;
+            font-size: 0.9rem;
+            color: var(--text-main);
+            outline: none;
+            transition: all 0.2s;
+            background-color: var(--bg-body);
+        }
+
+        .text-input:focus {
+            border-color: var(--primary);
+            background-color: var(--bg-card);
+            box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
+        }
+
+        .btn-analyze {
+            width: 100%;
+            padding: 0.85rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: background-color 0.2s;
+        }
+
+        .btn-analyze:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-analyze:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        /* ═══════════════════════════════════════════
+           HERO RIGHT (CAMERA DISH VIEW)
+           ═══════════════════════════════════════════ */
+        .hero-right {
+            position: relative;
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            aspect-ratio: 4/3;
+            background-color: #eaeef6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .scanner-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            gap: 0.75rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .scanner-placeholder svg {
+            color: var(--text-light);
+        }
+
+        .scanner-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Viewfinder Camera Brackets overlay */
+        .viewfinder {
+            position: absolute;
+            inset: 2rem;
+            pointer-events: none;
+            border: 2px solid transparent;
+            z-index: 2;
+        }
+
+        .viewfinder::before, .viewfinder::after,
+        .viewfinder-corner-bottom-left, .viewfinder-corner-bottom-right {
+            content: '';
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            border-color: #ffffff;
+            border-style: solid;
+            border-width: 0px;
+        }
+
+        /* Top-Left */
+        .viewfinder::before {
+            top: 0;
+            left: 0;
+            border-top-width: 4px;
+            border-left-width: 4px;
+            border-top-left-radius: 12px;
+        }
+
+        /* Top-Right */
+        .viewfinder::after {
+            top: 0;
+            right: 0;
+            border-top-width: 4px;
+            border-right-width: 4px;
+            border-top-right-radius: 12px;
+        }
+
+        /* Bottom-Left */
+        .viewfinder-corner-bottom-left {
+            bottom: 0;
+            left: 0;
+            border-bottom-width: 4px;
+            border-left-width: 4px;
+            border-bottom-left-radius: 12px;
+        }
+
+        /* Bottom-Right */
+        .viewfinder-corner-bottom-right {
+            bottom: 0;
+            right: 0;
+            border-bottom-width: 4px;
+            border-right-width: 4px;
+            border-bottom-right-radius: 12px;
+        }
+
+        /* Scanner Line Animation */
+        .scanner-line {
+            position: absolute;
+            left: 2rem;
+            right: 2rem;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(22, 163, 74, 0), rgba(22, 163, 74, 1) 50%, rgba(22, 163, 74, 0));
+            box-shadow: 0 0 12px rgba(22, 163, 74, 0.8);
+            z-index: 3;
+            top: 2rem;
+            display: none;
+        }
+
+        @keyframes scan {
+            0% { top: 2rem; opacity: 1; }
+            50% { top: calc(100% - 2.5rem); opacity: 1; }
+            100% { top: 2rem; opacity: 1; }
+        }
+
+        .scanning .scanner-line {
+            display: block;
+            animation: scan 3s infinite ease-in-out;
+        }
+
+        /* Status Badge Overlay */
+        .status-badge {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(255, 255, 255, 0.95);
+            border: 1px solid var(--border-color);
+            padding: 0.5rem 1.25rem;
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: var(--shadow-md);
+            z-index: 5;
+            color: var(--text-main);
+        }
+
+        .status-badge.scanning-mode {
+            background-color: var(--primary-light);
+            border-color: rgba(22, 163, 74, 0.2);
+            color: var(--primary);
+        }
+
+        .status-pulse {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            display: inline-block;
+        }
+
+        .status-pulse.pulse-active {
+            animation: status-ping 1.5s infinite;
+        }
+
+        @keyframes status-ping {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            50% { transform: scale(1.3); opacity: 1; }
+            100% { transform: scale(0.8); opacity: 0.5; }
+        }
+
+        /* ═══════════════════════════════════════════
+           RESULTS SECTION
+           ═══════════════════════════════════════════ */
+        .results-section {
+            padding: 3rem 0 5rem;
+            border-top: 1px solid var(--border-color);
+            background-color: #ffffff;
+            display: none;
+        }
+
+        .results-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+
+        .results-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #0b1530;
+        }
+
+        .btn-scan-again {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.5rem;
+            border-radius: var(--radius-sm);
+            transition: all 0.2s;
+        }
+
+        .btn-scan-again:hover {
+            background-color: var(--primary-light);
+        }
+
+        /* Results Card Grid */
+        .results-cards-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (min-width: 992px) {
+            .results-cards-grid {
+                grid-template-columns: 1.1fr 1fr 0.9fr;
+            }
+        }
+
+        /* Result Cards Base style */
+        .result-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 1.75rem;
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Card 1: Food details card */
+        .food-card {
+            gap: 1rem;
+        }
+
+        .food-result-image {
+            width: 100%;
+            height: 160px;
+            border-radius: var(--radius-md);
+            object-fit: cover;
+            background-color: #eaeef6;
+        }
+
+        .food-result-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .food-result-name {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: #0b1530;
+            text-transform: capitalize;
+        }
+
+        .food-result-confidence {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .food-result-desc {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* Card 2: Allergens Card */
+        .allergens-card {
+            gap: 1rem;
+        }
+
+        .allergens-card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #ea580c;
+        }
+
+        .allergens-card-header.clear {
+            color: var(--success);
+        }
+
+        .allergens-card-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .allergens-list {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            gap: 1.25rem;
+            margin: 0.5rem 0;
+            min-height: 70px;
+        }
+
+        .allergen-icon-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.4rem;
+            width: 60px;
+            text-align: center;
+        }
+
+        .allergen-icon-circle {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background-color: #fff7ed;
+            border: 1px solid #ffedd5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: #ea580c;
+        }
+
+        .allergen-icon-circle.safe {
+            background-color: var(--primary-light);
+            border-color: #dcfce7;
+            color: var(--primary);
+        }
+
+        .allergen-icon-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        .allergens-traces {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: auto;
+            border-top: 1px solid var(--border-color);
+            padding-top: 0.75rem;
+        }
+
+        .allergens-traces span {
+            font-weight: 700;
+            color: var(--warning);
+        }
+
+        /* Card 3: Top Nutrients Card */
+        .nutrients-card {
+            gap: 1rem;
+        }
+
+        .nutrients-card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: #0b1530;
+        }
+
+        .nutrients-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .nutrients-table tr {
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .nutrients-table tr:last-child {
+            border-bottom: none;
+        }
+
+        .nutrients-table td {
+            padding: 0.6rem 0;
+            font-size: 0.88rem;
+        }
+
+        .nutrient-name {
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .nutrient-val {
+            text-align: right;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .btn-view-nutrition {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            margin-top: auto;
+            align-self: flex-start;
+            transition: gap 0.2s;
+        }
+
+        .btn-view-nutrition:hover {
+            gap: 0.5rem;
+            color: var(--primary-hover);
+        }
+
+        /* Lower Row of 3 Health Cards */
+        .health-insights-row {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .health-insights-row {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .health-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem;
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .health-card-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .health-card-icon.tip {
+            background-color: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .health-card-icon.good {
+            background-color: #f0fdf4;
+            color: #15803d;
+        }
+
+        .health-card-icon.note {
+            background-color: #fef9c3;
+            color: #a16207;
+        }
+
+        .health-card-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .health-card-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .health-card-text {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* ═══════════════════════════════════════════
+           ERROR ALERT & TOASTS
+           ═══════════════════════════════════════════ */
+        .error-alert {
+            display: none;
+            background-color: #fef2f2;
+            border: 1px solid #fee2e2;
+            border-radius: var(--radius-md);
+            padding: 0.75rem 1rem;
+            color: var(--danger);
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* ═══════════════════════════════════════════
+           FOOTER
+           ═══════════════════════════════════════════ */
+        .footer {
+            background-color: var(--bg-card);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem 0;
+            text-align: center;
+            font-size: 0.78rem;
+            color: var(--text-light);
+        }
+
+        /* ═══════════════════════════════════════════
+           UTILITIES & LOADING
+           ═══════════════════════════════════════════ */
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="/" class="brand">
+                <div class="logo-icon">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M11.024 11.536a3.5 3.5 0 0 1-4.95-4.95l1.061-1.06a3.5 3.5 0 0 1 4.95 4.95l-1.06 1.06Z"/>
+                        <path d="M7.488 4.464a4.5 4.5 0 0 0 6.364 6.364l4.586 4.586a1.5 1.5 0 1 0 2.122-2.122l-4.586-4.586a4.5 4.5 0 0 0-6.364-6.364l-2.122 2.122Z"/>
+                        <path d="m3.111 20.889 4.243-4.243 1.06 1.06-4.242 4.243a.75.75 0 0 1-1.061-1.06Z"/>
+                    </svg>
+                </div>
+                <div class="brand-text">
+                    <span class="brand-name">FoodScan</span>
+                    <span class="brand-sub">Your Food. Your Health.</span>
+                </div>
+            </a>
+            <ul class="nav-links">
+                <li><a href="/" class="nav-link active">Home</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <!-- Left Side: Header and Inputs -->
+            <div class="hero-left">
+                <h1 class="hero-title">Identify Food.<br><span>Know What's Inside.</span></h1>
+                <p class="hero-subtitle">Upload a photo or enter the name of any food to detect allergens and discover nutrients.</p>
+
+                <!-- Error alert message container -->
+                <div class="error-alert" id="errorAlert">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                    </svg>
+                    <span id="errorText">Error message goes here</span>
+                </div>
+
+                <form id="analyzeForm" enctype="multipart/form-data">
+                    <div class="inputs-container">
+                        <!-- Upload Option -->
+                        <div class="upload-card-wrapper">
+                            <div class="upload-card" id="uploadZone">
+                                <svg class="upload-icon" width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+                                </svg>
+                                <span class="upload-text">Upload Photo</span>
+                                <span class="upload-sub">JPG, PNG · Max 5MB</span>
+                                <input type="file" id="imageInput" name="image" accept="image/*" class="hidden-file-input">
+                            </div>
+                        </div>
+
+                        <!-- OR Divider -->
+                        <div class="or-divider">OR</div>
+
+                        <!-- Text Search Option -->
+                        <div class="search-card">
+                            <div class="text-input-wrapper">
+                                <input type="text" id="textInput" name="text" placeholder="Enter food name..." class="text-input" autocomplete="off">
+                            </div>
+                            <button type="submit" class="btn-analyze" id="submitBtn">
+                                <span>Analyze Food</span>
+                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Right Side: Viewfinder Camera Mockup -->
+            <div class="hero-right" id="scannerContainer">
+                <div class="scanner-placeholder" id="scannerPlaceholder">
+                    <svg width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    <span>No photo uploaded</span>
+                </div>
+                <img src="" alt="Food scan preview" class="scanner-image hidden" id="scannerImage">
+                
+                <!-- Camera viewfinder lines -->
+                <div class="viewfinder">
+                    <div class="viewfinder-corner-bottom-left"></div>
+                    <div class="viewfinder-corner-bottom-right"></div>
+                </div>
+
+                <!-- Green scanning line -->
+                <div class="scanner-line"></div>
+
+                <!-- Status Badge -->
+                <div class="status-badge" id="statusBadge">
+                    <span class="status-pulse" id="statusPulse"></span>
+                    <span id="statusText">Ready to scan...</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Results Section -->
+    <section class="results-section" id="resultsSection">
+        <div class="container">
+            <div class="results-header">
+                <h2 class="results-title">Results</h2>
+                <button class="btn-scan-again" id="scanAgainBtn">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.21 8H17"/>
+                    </svg>
+                    Scan Again
+                </button>
+            </div>
+
+            <!-- Card Grid -->
+            <div class="results-cards-grid">
+                <!-- Food Info Card -->
+                <div class="result-card food-card">
+                    <img src="" alt="Identified Food" class="food-result-image" id="resFoodImage">
+                    <div class="food-result-info">
+                        <h3 class="food-result-name" id="resFoodName">Food Name</h3>
+                        <span class="food-result-confidence" id="resConfidence">Confidence: 95%</span>
+                    </div>
+                    <p class="food-result-desc" id="resFoodDesc">Loading details...</p>
+                </div>
+
+                <!-- Allergens Card -->
+                <div class="result-card allergens-card">
+                    <div class="allergens-card-header" id="allergyHeader">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                        </svg>
+                        Allergens
+                    </div>
+                    <p class="allergens-card-subtitle" id="allergyWarningText">This food may contain the following allergens:</p>
+                    
+                    <div class="allergens-list" id="allergenList">
+                        <!-- Dynamically filled with allergen circular items -->
+                    </div>
+                    
+                    <div class="allergens-traces" id="allergyTracesText">
+                        May contain traces of: <span>None</span>
+                    </div>
+                </div>
+
+                <!-- Nutrients Card -->
+                <div class="result-card nutrients-card">
+                    <div class="nutrients-card-header">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                        </svg>
+                        Top Nutrients <span style="font-size:0.75rem; font-weight:normal; color:var(--text-light)">(Per serving)</span>
+                    </div>
+                    <table class="nutrients-table">
+                        <tr>
+                            <td class="nutrient-name">Calories</td>
+                            <td class="nutrient-val" id="macroCals">0 kcal</td>
+                        </tr>
+                        <tr>
+                            <td class="nutrient-name">Protein</td>
+                            <td class="nutrient-val" id="macroProtein">0 g</td>
+                        </tr>
+                        <tr>
+                            <td class="nutrient-name">Carbohydrates</td>
+                            <td class="nutrient-val" id="macroCarbs">0 g</td>
+                        </tr>
+                        <tr>
+                            <td class="nutrient-name">Fat</td>
+                            <td class="nutrient-val" id="macroFats">0 g</td>
+                        </tr>
+                        <tr>
+                            <td class="nutrient-name">Fiber</td>
+                            <td class="nutrient-val" id="macroFiber">0 g</td>
+                        </tr>
+                    </table>
+                    
+                    <a href="#full-nutrition" class="btn-view-nutrition" id="viewFullNutrition">
+                        View Full Nutrition
+                        <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Health Insights Cards (Good For, Health Tip, Note) -->
+            <div class="health-insights-row">
+                <!-- Card 1: Health Tip -->
+                <div class="health-card">
+                    <div class="health-card-icon tip">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.952 11.952 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                    </div>
+                    <div class="health-card-content">
+                        <span class="health-card-label">Health Tip</span>
+                        <p class="health-card-text" id="tipText">This meal is a good source of energy. Add more vegetables for added fiber and vitamins.</p>
+                    </div>
+                </div>
+
+                <!-- Card 2: Good For -->
+                <div class="health-card">
+                    <div class="health-card-icon good">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                        </svg>
+                    </div>
+                    <div class="health-card-content">
+                        <span class="health-card-label">Good For</span>
+                        <p class="health-card-text" id="goodForText">Provides moderate energy and contains essential nutrients for daily diet.</p>
+                    </div>
+                </div>
+
+                <!-- Card 3: Note -->
+                <div class="health-card">
+                    <div class="health-card-icon note">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                        </svg>
+                    </div>
+                    <div class="health-card-content">
+                        <span class="health-card-label">Note</span>
+                        <p class="health-card-text" id="noteText">Individuals with milk, gluten, or soy allergies should avoid or consume with caution.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>© FoodScan is intended for informational purposes only and should not replace professional medical advice.</p>
+        </div>
+    </footer>
+
+    <script>
+        const form = document.getElementById('analyzeForm');
+        const imageInput = document.getElementById('imageInput');
+        const textInput = document.getElementById('textInput');
+        const uploadZone = document.getElementById('uploadZone');
+        const submitBtn = document.getElementById('submitBtn');
+        const errorAlert = document.getElementById('errorAlert');
+        const errorText = document.getElementById('errorText');
+        const scannerContainer = document.getElementById('scannerContainer');
+        const scannerImage = document.getElementById('scannerImage');
+        const scannerPlaceholder = document.getElementById('scannerPlaceholder');
+        const statusBadge = document.getElementById('statusBadge');
+        const statusPulse = document.getElementById('statusPulse');
+        const statusText = document.getElementById('statusText');
+        
+        const resultsSection = document.getElementById('resultsSection');
+        const scanAgainBtn = document.getElementById('scanAgainBtn');
+        
+        // Result fields
+        const resFoodImage = document.getElementById('resFoodImage');
+        const resFoodName = document.getElementById('resFoodName');
+        const resConfidence = document.getElementById('resConfidence');
+        const resFoodDesc = document.getElementById('resFoodDesc');
+        const allergyHeader = document.getElementById('allergyHeader');
+        const allergyWarningText = document.getElementById('allergyWarningText');
+        const allergenList = document.getElementById('allergenList');
+        const allergyTracesText = document.getElementById('allergyTracesText');
+        
+        const macroCals = document.getElementById('macroCals');
+        const macroProtein = document.getElementById('macroProtein');
+        const macroCarbs = document.getElementById('macroCarbs');
+        const macroFats = document.getElementById('macroFats');
+        const macroFiber = document.getElementById('macroFiber');
+        
+        const tipText = document.getElementById('tipText');
+        const goodForText = document.getElementById('goodForText');
+        const noteText = document.getElementById('noteText');
+
+        // Preset illustrations/icons for allergen types
+        const ALLERGEN_ASSETS = {
+            'milk': { emoji: '🥛', label: 'Milk (Dairy)' },
+            'dairy': { emoji: '🥛', label: 'Dairy' },
+            'wheat': { emoji: '🌾', label: 'Gluten (Wheat)' },
+            'gluten': { emoji: '🍞', label: 'Gluten' },
+            'soy': { emoji: '🫘', label: 'Soy' },
+            'peanuts': { emoji: '🥜', label: 'Peanuts' },
+            'nuts': { emoji: '🌰', label: 'Tree Nuts' },
+            'egg': { emoji: '🥚', label: 'Egg' },
+            'fish': { emoji: '🐟', label: 'Fish' },
+            'shellfish': { emoji: '🦐', label: 'Shellfish' },
+            'sesame': { emoji: '🌱', label: 'Sesame' }
+        };
+
+        // Fallback images for foods if no photo uploaded
+        const FOOD_FALLBACKS = {
+            'pizza': 'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=400&auto=format&fit=crop',
+            'pasta': 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=400&auto=format&fit=crop',
+            'creamy_mushroom_pasta': 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=400&auto=format&fit=crop',
+            'apple pie': 'https://images.unsplash.com/photo-1519869325930-281384150729?q=80&w=400&auto=format&fit=crop',
+            'salad': 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=400&auto=format&fit=crop',
+            'hamburger': 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=400&auto=format&fit=crop'
+        };
+
+        let currentImageBase64 = null;
+
+        /* ── DRAG & DROP & SELECT ── */
+        ['dragenter', 'dragover'].forEach(ev =>
+            uploadZone.addEventListener(ev, e => { e.preventDefault(); uploadZone.style.borderColor = 'var(--primary)'; }));
+        ['dragleave', 'drop'].forEach(ev =>
+            uploadZone.addEventListener(ev, e => { e.preventDefault(); uploadZone.style.borderColor = 'rgba(22, 163, 74, 0.4)'; }));
+            
+        uploadZone.addEventListener('drop', e => {
+            const files = e.dataTransfer.files;
+            if (files.length) { imageInput.files = files; handleImageSelected(files[0]); }
+        });
+        
+        imageInput.addEventListener('change', () => { if (imageInput.files.length) handleImageSelected(imageInput.files[0]); });
+
+        function handleImageSelected(file) {
+            if (!file.type.startsWith('image/')) { showError('File must be an image.'); imageInput.value = ''; return; }
+            textInput.value = '';
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onloadend = () => {
+                currentImageBase64 = reader.result;
+                scannerImage.src = reader.result;
+                scannerImage.classList.remove('hidden');
+                scannerPlaceholder.classList.add('hidden');
+                statusText.textContent = 'Image loaded. Ready to scan.';
+            };
+            clearError();
+        }
+
+        textInput.addEventListener('input', () => { 
+            if (textInput.value.trim()) {
+                // Clear selected image
+                imageInput.value = '';
+                currentImageBase64 = null;
+                scannerImage.src = '';
+                scannerImage.classList.add('hidden');
+                scannerPlaceholder.classList.remove('hidden');
+                statusText.textContent = 'Ready to search dish...';
+            }
+            clearError();
+        });
+
+        function showError(msg) {
+            errorText.textContent = msg;
+            errorAlert.style.display = 'flex';
+        }
+        function clearError() { errorAlert.style.display = 'none'; }
+
+        /* ── RESET / SCAN AGAIN ── */
+        scanAgainBtn.addEventListener('click', () => {
+            resultsSection.style.display = 'none';
+            form.reset();
+            currentImageBase64 = null;
+            scannerImage.src = '';
+            scannerImage.classList.add('hidden');
+            scannerPlaceholder.classList.remove('hidden');
+            statusText.textContent = 'Ready to scan...';
+            statusBadge.classList.remove('scanning-mode');
+            statusPulse.classList.remove('pulse-active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        /* ── FORM SUBMIT ── */
+        form.addEventListener('submit', async e => {
+            e.preventDefault(); 
+            clearError();
+            
+            const imageFile = imageInput.files[0];
+            const textVal = textInput.value.trim();
+            if (!imageFile && !textVal) { showError('Please select a photo or enter a food name.'); return; }
+
+            // Enter scanning mode animation
+            submitBtn.disabled = true;
+            scannerContainer.classList.add('scanning');
+            statusBadge.classList.add('scanning-mode');
+            statusPulse.classList.add('pulse-active');
+            statusText.textContent = 'Analyzing...';
+
+            const fd = new FormData();
+            if (imageFile) fd.append('image', imageFile); else fd.append('text', textVal);
+
+            try {
+                const res = await fetch('/analyze', { method: 'POST', body: fd });
+                if (!res.ok) { const err = await res.json(); throw new Error(err.detail || 'Analysis failed.'); }
+                const data = await res.json();
+                
+                // Mimic analysis speed slightly for visual scanning line effect
+                setTimeout(() => {
+                    renderDashboard(data, !!imageFile);
+                    scannerContainer.classList.remove('scanning');
+                    statusPulse.classList.remove('pulse-active');
+                    statusText.textContent = 'Scan Complete!';
+                }, 1000);
+                
+            } catch (err) {
+                showError(err.message);
+                scannerContainer.classList.remove('scanning');
+                statusPulse.classList.remove('pulse-active');
+                statusText.textContent = 'Ready to scan...';
+                statusBadge.classList.remove('scanning-mode');
+            } finally {
+                submitBtn.disabled = false;
+            }
+        });
+
+        /* ── RENDER RESULTS ── */
+        function renderDashboard(data, isImage) {
+            resultsSection.style.display = 'block';
+            resultsSection.scrollIntoView({ behavior: 'smooth' });
+
+            // Food Info Card
+            resFoodName.textContent = data.food_name;
+            const confPercent = Math.round(data.confidence * 100);
+            resConfidence.textContent = `Confidence: ${confPercent}%`;
+            
+            // Set image
+            if (isImage && currentImageBase64) {
+                resFoodImage.src = currentImageBase64;
+                resFoodImage.classList.remove('hidden');
+            } else {
+                // Find fallback image or use placeholder
+                const cleanName = data.food_name.toLowerCase().replace(/_/g, ' ');
+                let matchedFallback = null;
+                for (const [k, v] of Object.entries(FOOD_FALLBACKS)) {
+                    if (cleanName.includes(k)) { matchedFallback = v; break; }
+                }
+                if (matchedFallback) {
+                    resFoodImage.src = matchedFallback;
+                    resFoodImage.classList.remove('hidden');
+                } else {
+                    resFoodImage.src = '';
+                    resFoodImage.classList.add('hidden');
+                }
+            }
+
+            // Description / Ingredients
+            const ingString = data.nutrition.ingredients ? data.nutrition.ingredients.join(', ') : '';
+            resFoodDesc.textContent = `Dietary Classification: ${data.dietary_classification.toUpperCase()}. Typical composition includes: ${ingString || 'Standard ingredients'}.`;
+
+            // Allergens Card
+            const detected = data.allergy_info.allergens_detected || [];
+            allergenList.innerHTML = '';
+            
+            if (detected.length > 0) {
+                allergyHeader.className = 'allergens-card-header';
+                allergyHeader.innerHTML = `
+                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+                    </svg>
+                    Allergens`;
+                allergyWarningText.textContent = 'This food may contain the following allergens:';
+                
+                detected.forEach(item => {
+                    const lItem = item.toLowerCase();
+                    const info = ALLERGEN_ASSETS[lItem] || { emoji: '⚠️', label: item };
+                    
+                    const div = document.createElement('div');
+                    div.className = 'allergen-icon-item';
+                    div.innerHTML = `
+                        <div class="allergen-icon-circle">${info.emoji}</div>
+                        <span class="allergen-icon-label">${info.label}</span>
+                    `;
+                    allergenList.appendChild(div);
+                });
+                
+                // Traces
+                allergyTracesText.style.display = 'block';
+                allergyTracesText.innerHTML = `May contain traces of: <span>${detected.join(', ')}</span>`;
+            } else {
+                allergyHeader.className = 'allergens-card-header clear';
+                allergyHeader.innerHTML = `
+                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    Allergen Clear`;
+                allergyWarningText.textContent = 'No common allergens detected. Always verify with packaging labels.';
+                
+                const div = document.createElement('div');
+                div.className = 'allergen-icon-item';
+                div.innerHTML = `
+                    <div class="allergen-icon-circle safe">✅</div>
+                    <span class="allergen-icon-label">Clear</span>
+                `;
+                allergenList.appendChild(div);
+                allergyTracesText.style.display = 'none';
+            }
+
+            // Nutrients Card
+            const n = data.nutrition;
+            macroCals.textContent = `${Math.round(n.calories)} kcal`;
+            macroProtein.textContent = `${n.protein.toFixed(1)} g`;
+            macroCarbs.textContent = `${n.carbohydrates.toFixed(1)} g`;
+            macroFats.textContent = `${n.fats.toFixed(1)} g`;
+            macroFiber.textContent = `${n.fiber.toFixed(1)} g`;
+
+            // Health Insights lower row
+            // Health Tip
+            const recs = data.health_recommendation || [];
+            tipText.textContent = recs[0] || 'This meal provides a moderate balance of macronutrients for daily metabolic needs.';
+            
+            // Good For
+            const diet = data.dietary_classification.toLowerCase();
+            if (diet === 'vegan') {
+                goodForText.textContent = 'Perfect choice for strict plant-based, vegetarian, and vegan dietary regimens.';
+            } else if (diet === 'vegetarian') {
+                goodForText.textContent = 'Contains no meat components; suitable for vegetarian dietary regimes.';
+            } else {
+                goodForText.textContent = 'Provides essential amino acids and complex compounds suitable for regular mixed diets.';
+            }
+
+            // Note
+            if (detected.length > 0) {
+                noteText.textContent = `Individuals with ${detected.join(', ')} allergies should avoid this food item or consume with extreme caution.`;
+            } else {
+                noteText.textContent = 'No immediate allergens flagged. Individuals with highly sensitive or rare allergies should still check ingredients list.';
+            }
+        }
+    </script>
+</body>
+
+</html>
